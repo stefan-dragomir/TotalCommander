@@ -28,3 +28,4 @@ C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\TotalCommander.exe
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\TotalCommander.pdb
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\About.g.cs
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\About.baml
+C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\GeneratedInternalTypeHelper.g.cs

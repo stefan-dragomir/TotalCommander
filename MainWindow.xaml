@@ -1,9 +1,10 @@
-﻿<Window x:Class="TotalCommander.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TotalCommander"
+        xmlns:Properties="clr-namespace:TotalCommander.Properties" x:Class="TotalCommander.MainWindow"
         mc:Ignorable="d"
         Title="TotalCommander" Height="500" Width="900">
 	<StackPanel x:Name="pnlContainer" ClipToBounds="True" Margin="0,0,0,0">
@@ -26,7 +27,7 @@
 			</Grid.ColumnDefinitions>
 			<ComboBox x:Name="cbDrivesLeft" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cbDrivesLeft_SelectionChanged"/>
 			<ComboBox x:Name="cbDrivesRight" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="cbDrivesRight_SelectionChanged"/>
-			<ListView x:Name="listLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MouseDoubleClick="listLeft_MouseDoubleClick">
+			<ListView x:Name="listLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MouseDoubleClick="listLeft_MouseDoubleClick" SelectionChanged="listLeft_SelectionChanged" GotFocus="listLeft_GotFocus">
 				<ListView.View>
 					<GridView x:Name="gridInnerLeft">
 						<GridViewColumn Header="Name" Width="140" DisplayMemberBinding="{Binding Name}" />
@@ -34,9 +35,9 @@
 					</GridView>
 				</ListView.View>
 			</ListView>
-			<GridSplitter x:Name="gridSplitter" Grid.Row="1" Grid.Column="1" Margin="2,0,2,0" Width="50" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-			<Button x:Name="btnCopySplitter" Grid.Row="1" Grid.Column="1" Margin="0,0,0,0" Height="30"></Button>
-			<ListView x:Name="listRight" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" MouseDoubleClick="listRight_MouseDoubleClick">
+			<GridSplitter x:Name="gridSplitter" Grid.Row="1" Grid.Column="1" Margin="2,0,2,0" Width="70" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+			<Button x:Name="btnNewFolder" Content="New Folder" Grid.Row="1" Grid.Column="1" Margin="0,0,0,0" Height="30" Click="btnNewFolder_Click"/>
+			<ListView x:Name="listRight" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" MouseDoubleClick="listRight_MouseDoubleClick" SelectionChanged="listRight_SelectionChanged">
 				<ListView.View>
 					<GridView x:Name="gridInnerRight">
 						<GridViewColumn Header="Name" Width="140" DisplayMemberBinding="{Binding Name}" />

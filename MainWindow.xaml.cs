@@ -22,6 +22,10 @@ namespace TotalCommander
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+
+		private string CurrentPath, PreviousPath;
+		private bool AnItemIsSelected;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -60,7 +64,16 @@ namespace TotalCommander
 
 		//Generic Functions
 
-		public void PopulateComboBox(ComboBox cb)
+		private void ChangeFocusedPaths(DisplayItem item)
+		{
+			PreviousPath = CurrentPath;
+			//PreviousPathParent = CurrentPathParent;
+
+			CurrentPath = item.Path;
+			//CurrentPathParent = item.GetParent().Path;
+		}
+
+		private void PopulateComboBox(ComboBox cb)
 		{
 			string[] Drives = FileUtils.GetDrives().Split('|');
 
@@ -77,7 +90,6 @@ namespace TotalCommander
 
 		private void OpenDisplayItem(ListView lv)
 		{
-
 			DisplayItem selectedItem = ((DisplayItem)lv.SelectedItem);
 
 			if (selectedItem != null)
@@ -90,7 +102,7 @@ namespace TotalCommander
 			}
 		}
 
-		public void BuildListView(ListView lv, string path)
+		private void BuildListView(ListView lv, string path)
 		{
 			lv.ItemsSource = "";
 
@@ -101,6 +113,55 @@ namespace TotalCommander
 				elements.Insert(0, dirs.GetParent());
 
 			lv.ItemsSource = elements;
+
+			ChangeFocusedPaths(dirs);
+			AnItemIsSelected = false;
+		}
+
+		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (listLeft.SelectedItems.Count >= 1)
+			{
+				DisplayItem selectedItem = ((DisplayItem)listLeft.SelectedItem);
+				ChangeFocusedPaths(selectedItem);
+				AnItemIsSelected = true;
+			}
+		}
+		private void listRight_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (listRight.SelectedItems.Count >= 1)
+			{
+				DisplayItem selectedItem = ((DisplayItem)listRight.SelectedItem);
+				ChangeFocusedPaths(selectedItem);
+				AnItemIsSelected = true;
+			}
+		}
+
+		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
+		{
+			if (AnItemIsSelected)
+			{
+				FileUtils.NewFolder(PreviousPath);
+				if (listLeft.GotFocus)
+					BuildListView(listLeft, PreviousPath);
+				if (listRight.GotFocus)
+					BuildListView(listRight, PreviousPath);
+			}
+			else
+			{
+				FileUtils.NewFolder(CurrentPath);
+				if (listLeft.MouseLeftButtonUp)
+					BuildListView(listLeft, PreviousPath);
+				if (listRight.GotFocus)
+					BuildListView(listRight, PreviousPath);
+			}
+
+
 		}
 	}
 }

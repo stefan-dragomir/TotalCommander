@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace TotalCommander
 {
@@ -9,14 +10,17 @@ namespace TotalCommander
         public string Path { get; set; }
         public string Name { get; set; }
         public string Extension { get; set; }
-        public DateTime creationDate { get; set; }
+        public DateTime CreationDate { get; set; }
+        //public string IconURI { get;  set; }
+        //public BitmapImage ImageData;
 
         public DisplayItem(string path)
         {
             this.Path = path;
             this.Name = GetName();
             this.Extension = GetExtension();
-            this.creationDate = GetCreationDate();
+            this.CreationDate = GetCreationDate();
+            //this.ImageData = new BitmapImage(new Uri("pack://application:,,,/" + "resources/icon.png"));
         }
 
         public string GetName()

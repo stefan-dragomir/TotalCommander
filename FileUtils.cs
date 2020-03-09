@@ -23,5 +23,15 @@ namespace TotalCommander
 
 			return drives.ToString().Substring(0, drives.Length - 1);
 		}
+		public static void NewFolder(string path)
+		{
+			DirectoryInfo d = new DirectoryInfo(path);
+			//maybe a better method exists to find if a path is root
+			//but this worls
+			if (d.Parent == null)
+				Directory.CreateDirectory(path + "New Folder");
+			else
+				Directory.CreateDirectory(path + "\\New Folder");
+		}
 	}
 }
