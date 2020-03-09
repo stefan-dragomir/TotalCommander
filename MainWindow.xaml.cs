@@ -24,7 +24,7 @@ namespace TotalCommander
 	{
 
 		private string leftViewPath, rightViewPath;
-		public string activeViewPath, inactiveViewPath;
+		public string activeViewPath, inactiveViewPath, activeItemPath;
 		//private bool AnItemIsSelected;
 		private static ListView activeWiew = new ListView();
 
@@ -36,11 +36,15 @@ namespace TotalCommander
 			PopulateComboBox(cbDrivesRight);
 		}
 
+//Menu Actions
+
 		private void miAbout_Click(object sender, RoutedEventArgs e)
 		{
 			About abtWindow = new About();
 			abtWindow.Show();
 		}
+
+//ComboBoxes Actions
 
 		private void cbDrivesLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -53,6 +57,8 @@ namespace TotalCommander
 			string[] Drives = FileUtils.GetDrives().Split('|');
 			BuildListView(listRight, Drives[cbDrivesRight.SelectedIndex]);
 		}
+
+//Views Actions
 
 		private void listLeft_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
@@ -75,26 +81,63 @@ namespace TotalCommander
 			activeWiew = listRight;
 			SetActiveViewPath(activeWiew);
 		}
+
 		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeWiew = listLeft;
 			SetActiveViewPath(activeWiew);
 		}
+
 		private void listRight_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeWiew = listRight;
 			SetActiveViewPath(activeWiew);
 		}
 
+		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SetActiveSelectionPath(listLeft);
+		}
+
+		private void listRight_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			SetActiveSelectionPath(listRight);
+		}
+
+//Buttons Actions
+
 		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
 		{
-
 			NewFolder nf = new NewFolder(activeWiew, activeViewPath);
 			nf.Show();
 		}
 
-		//Generic Functions
+		private void btnDelete_Click(object sender, RoutedEventArgs e)
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				string itemType = "";
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
 
+				if (selectedItem.IsFile())
+					itemType = "file";
+
+				if (selectedItem.IsFolder())
+					itemType = "folder";
+
+				MessageBoxResult confirmDelete = MessageBox.Show("Are you sure to delete this item?", "Confrm delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+				if (confirmDelete == MessageBoxResult.Yes)
+				{
+					FileUtils.Delete(activeItemPath, itemType);
+					BuildListView(activeWiew, activeViewPath);
+				}
+			}
+		}
+
+//Generic Functions
+
+		//Populates Combo Boxes with drives found.
 		private void PopulateComboBox(ComboBox cb)
 		{
 			string[] Drives = FileUtils.GetDrives().Split('|');
@@ -110,6 +153,7 @@ namespace TotalCommander
 			BuildListView(listRight, Drives[cbDrivesLeft.SelectedIndex]);
 		}
 
+		//opens item. expands directory / launches file.
 		private void OpenDisplayItem(ListView lv)
 		{
 			DisplayItem selectedItem = ((DisplayItem)lv.SelectedItem);
@@ -126,6 +170,7 @@ namespace TotalCommander
 			}
 		}
 
+		//builds a list view with all the elements found in a directory
 		public void BuildListView(ListView lv, string path)
 		{
 			lv.ItemsSource = "";
@@ -145,16 +190,7 @@ namespace TotalCommander
 				rightViewPath = path;
 		}
 
-//private void setViewPaths(ListView lv)
-//{
-//			if (lv.Name.Contains("left"))
-//				leftViewPath = path;
-
-//			if (lv.Name.Contains("right"))
-//				rightViewPath = path;
-
-//		}
-
+		//sets Active / last active View paths for copy / move / new file
 		private void SetActiveViewPath(ListView lv)
 		{
 			inactiveViewPath = activeViewPath;
@@ -164,6 +200,13 @@ namespace TotalCommander
 
 			if (lv.Name.ToLower().Contains("right"))
 				activeViewPath = rightViewPath;
+		}
+
+		//sets last selected item path for copy / delete / move
+		private void SetActiveSelectionPath(ListView lv)
+		{
+			if (lv.SelectedItems.Count >= 1)
+				activeItemPath = ((DisplayItem)lv.SelectedItem).Path;
 		}
 	}
 }
