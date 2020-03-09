@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.IO;
 
 namespace TotalCommander
@@ -23,6 +20,7 @@ namespace TotalCommander
 
 			return drives.ToString().Substring(0, drives.Length - 1);
 		}
+
 		public static void NewFolder(string path, string folderName)
 		{
 			DirectoryInfo d = new DirectoryInfo(path);
@@ -32,6 +30,7 @@ namespace TotalCommander
 			else
 				Directory.CreateDirectory(path + "\\" + folderName);
 		}
+
 		public static void Delete(string path, string type)
 		{
 			DirectoryInfo d = new DirectoryInfo(path);
@@ -40,11 +39,41 @@ namespace TotalCommander
 				return;
 			else
 			{
-				if (type.ToLower() == "file")
-					File.Delete(path);
+				switch (type.ToLower()) {
+					case "file":
+						File.Delete(path);
+						break;
+					case "folder":
+						Directory.Delete(path, true);
+						break;
+				}
+			}
+		}
 
-				if (type.ToLower() == "folder")
-					Directory.Delete(path, true);
+		public static void Clone(string sourcePath, string destinationPath, string type, bool keepOriginal = true)
+		{
+			switch (type.ToLower())
+			{
+				case "file":
+					if (keepOriginal == false)
+						File.Move(sourcePath, destinationPath);
+					else
+						File.Copy(sourcePath, destinationPath);
+
+					break;
+				case "folder":
+					DirectoryInfo d = new DirectoryInfo(sourcePath);
+					if (d.Parent == null)
+						return;
+					else
+					{
+						if (keepOriginal == false)
+							Directory.Move(sourcePath, destinationPath);
+						else
+							Directory.Move(sourcePath, destinationPath);
+					}
+
+					break;
 			}
 		}
 	}

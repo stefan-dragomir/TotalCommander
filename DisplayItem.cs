@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace TotalCommander
 {
 	class DisplayItem
 	{
-        public string Path { get; set; }
+        public string Path { get; }
         public string Name { get; set; }
         public string Extension { get; set; }
-        public DateTime CreationDate { get; set; }
-        //public string IconURI { get;  set; }
-        //public BitmapImage ImageData;
+        public DateTime LastChangedDate { get; }
+        public string IconURL { get; }
 
         public DisplayItem(string path)
         {
             this.Path = path;
             this.Name = GetName();
             this.Extension = GetExtension();
-            this.CreationDate = GetCreationDate();
-            //this.ImageData = new BitmapImage(new Uri("pack://application:,,,/" + "resources/icon.png"));
+            this.LastChangedDate = GetLastChangedDate();
+
+            if (this.IsFile())
+                this.IconURL = "resources/icon.png";
+
+            if (this.IsFolder())
+                this.IconURL = "resources/folder.png";
         }
 
         public string GetName()
@@ -49,9 +53,9 @@ namespace TotalCommander
             this.Extension = extension;
         }
 
-        public DateTime GetCreationDate()
+        public DateTime GetLastChangedDate()
         {
-            return Directory.GetCreationTime(Path);
+            return Directory.GetLastWriteTime(Path);
         }
 
         public DisplayItem GetParent()

@@ -135,6 +135,40 @@ namespace TotalCommander
 			}
 		}
 
+		private void btnCopy_Click(object sender, RoutedEventArgs e)
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				string itemType = "";
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile())
+					itemType = "file";
+
+				if (selectedItem.IsFolder())
+					itemType = "folder";
+
+				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, true);
+			}
+		}
+
+		private void btnMove_Click(object sender, RoutedEventArgs e)
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				string itemType = "";
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile())
+					itemType = "file";
+
+				if (selectedItem.IsFolder())
+					itemType = "folder";
+
+				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, false);
+			}
+		}
+
 //Generic Functions
 
 		//Populates Combo Boxes with drives found.
