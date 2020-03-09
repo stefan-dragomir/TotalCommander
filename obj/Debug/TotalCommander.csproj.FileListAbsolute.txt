@@ -29,3 +29,21 @@ C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\TotalCommander.pdb
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\About.g.cs
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\About.baml
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\School\GIT\TotalCommander\bin\Debug\TotalCommander.exe.config
+D:\School\GIT\TotalCommander\bin\Debug\TotalCommander.exe
+D:\School\GIT\TotalCommander\bin\Debug\TotalCommander.pdb
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.csprojAssemblyReference.cache
+D:\School\GIT\TotalCommander\obj\Debug\About.g.cs
+D:\School\GIT\TotalCommander\obj\Debug\MainWindow.g.cs
+D:\School\GIT\TotalCommander\obj\Debug\App.g.cs
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander_MarkupCompile.cache
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander_MarkupCompile.lref
+D:\School\GIT\TotalCommander\obj\Debug\About.baml
+D:\School\GIT\TotalCommander\obj\Debug\MainWindow.baml
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.g.resources
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.Properties.Resources.resources
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.csproj.GenerateResource.cache
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.exe
+D:\School\GIT\TotalCommander\obj\Debug\TotalCommander.pdb
+D:\School\GIT\TotalCommander\obj\Debug\NewFolder.g.cs
+D:\School\GIT\TotalCommander\obj\Debug\NewFolder.baml

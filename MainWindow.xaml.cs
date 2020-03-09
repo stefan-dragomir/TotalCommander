@@ -23,8 +23,10 @@ namespace TotalCommander
 	public partial class MainWindow : Window
 	{
 
-		private string CurrentPath, PreviousPath;
-		private bool AnItemIsSelected;
+		private string leftViewPath, rightViewPath;
+		public string activeViewPath, inactiveViewPath;
+		//private bool AnItemIsSelected;
+		private static ListView activeWiew = new ListView();
 
 		public MainWindow()
 		{
@@ -62,16 +64,36 @@ namespace TotalCommander
 			OpenDisplayItem(listRight);
 		}
 
-		//Generic Functions
-
-		private void ChangeFocusedPaths(DisplayItem item)
+		private void listLeft_Loaded(object sender, RoutedEventArgs e)
 		{
-			PreviousPath = CurrentPath;
-			//PreviousPathParent = CurrentPathParent;
-
-			CurrentPath = item.Path;
-			//CurrentPathParent = item.GetParent().Path;
+			activeWiew = listLeft;
+			SetActiveViewPath(activeWiew);
 		}
+
+		private void listRight_Loaded(object sender, RoutedEventArgs e)
+		{
+			activeWiew = listRight;
+			SetActiveViewPath(activeWiew);
+		}
+		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeWiew = listLeft;
+			SetActiveViewPath(activeWiew);
+		}
+		private void listRight_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeWiew = listRight;
+			SetActiveViewPath(activeWiew);
+		}
+
+		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
+		{
+
+			NewFolder nf = new NewFolder(activeWiew, activeViewPath);
+			nf.Show();
+		}
+
+		//Generic Functions
 
 		private void PopulateComboBox(ComboBox cb)
 		{
@@ -99,10 +121,12 @@ namespace TotalCommander
 
 				if (selectedItem.IsFolder())
 					BuildListView(lv, selectedItem.Path);
+
+				SetActiveViewPath(lv);
 			}
 		}
 
-		private void BuildListView(ListView lv, string path)
+		public void BuildListView(ListView lv, string path)
 		{
 			lv.ItemsSource = "";
 
@@ -114,54 +138,32 @@ namespace TotalCommander
 
 			lv.ItemsSource = elements;
 
-			ChangeFocusedPaths(dirs);
-			AnItemIsSelected = false;
+			if (lv.Name.ToLower().Contains("left"))
+				leftViewPath = path;
+
+			if (lv.Name.ToLower().Contains("right"))
+				rightViewPath = path;
 		}
 
-		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
+//private void setViewPaths(ListView lv)
+//{
+//			if (lv.Name.Contains("left"))
+//				leftViewPath = path;
+
+//			if (lv.Name.Contains("right"))
+//				rightViewPath = path;
+
+//		}
+
+		private void SetActiveViewPath(ListView lv)
 		{
+			inactiveViewPath = activeViewPath;
 
-		}
+			if (lv.Name.ToLower().Contains("left"))
+				activeViewPath = leftViewPath;
 
-		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (listLeft.SelectedItems.Count >= 1)
-			{
-				DisplayItem selectedItem = ((DisplayItem)listLeft.SelectedItem);
-				ChangeFocusedPaths(selectedItem);
-				AnItemIsSelected = true;
-			}
-		}
-		private void listRight_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (listRight.SelectedItems.Count >= 1)
-			{
-				DisplayItem selectedItem = ((DisplayItem)listRight.SelectedItem);
-				ChangeFocusedPaths(selectedItem);
-				AnItemIsSelected = true;
-			}
-		}
-
-		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
-		{
-			if (AnItemIsSelected)
-			{
-				FileUtils.NewFolder(PreviousPath);
-				if (listLeft.GotFocus)
-					BuildListView(listLeft, PreviousPath);
-				if (listRight.GotFocus)
-					BuildListView(listRight, PreviousPath);
-			}
-			else
-			{
-				FileUtils.NewFolder(CurrentPath);
-				if (listLeft.MouseLeftButtonUp)
-					BuildListView(listLeft, PreviousPath);
-				if (listRight.GotFocus)
-					BuildListView(listRight, PreviousPath);
-			}
-
-
+			if (lv.Name.ToLower().Contains("right"))
+				activeViewPath = rightViewPath;
 		}
 	}
 }
