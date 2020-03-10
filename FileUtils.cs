@@ -63,20 +63,37 @@ namespace TotalCommander
 					break;
 				case "folder":
 					DirectoryInfo d = new DirectoryInfo(sourcePath);
+
 					if (d.Parent == null)
 						return;
 					else
 					{
+						CopyFolderRecursive(sourcePath, destinationPath);
+
 						if (keepOriginal == false)
-							//will not work across volumes
-							Directory.Move(sourcePath, destinationPath);
-						//else
-							//Figure Out Copying
-							//Directory.Move(sourcePath, destinationPath);
+							Delete(sourcePath, "folder");
 					}
 
 					break;
 			}
+		}
+
+		public static void CopyFolderRecursive(string sourcePath, string destinationPath)
+		{
+			DirectoryInfo currentDirectory = new DirectoryInfo(sourcePath);
+			NewFolder(destinationPath, currentDirectory.Name);
+
+			string destPath = destinationPath + @"\" + currentDirectory.Name;
+
+			FileInfo[] innerFiles = currentDirectory.GetFiles();
+
+			foreach (FileInfo fi in innerFiles)
+				File.Copy(fi.FullName, destPath + @"\" + fi.Name);
+
+			DirectoryInfo[] innerFolders = currentDirectory.GetDirectories();
+
+			foreach (DirectoryInfo di in innerFolders)
+				CopyFolderRecursive(di.FullName, destPath);
 		}
 	}
 }

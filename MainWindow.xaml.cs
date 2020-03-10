@@ -73,22 +73,22 @@ namespace TotalCommander
 
 		private void listLeft_Loaded(object sender, RoutedEventArgs e)
 		{
-			SetActivePaths(activeWiew);
+			SetActivePaths(listLeft);
 		}
 
 		private void listRight_Loaded(object sender, RoutedEventArgs e)
 		{
-			SetActivePaths(activeWiew);
+			SetActivePaths(listRight);
 		}
 
 		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
 		{
-			SetActivePaths(activeWiew);
+			SetActivePaths(listLeft);
 		}
 
 		private void listRight_GotFocus(object sender, RoutedEventArgs e)
 		{
-			SetActivePaths(activeWiew);
+			SetActivePaths(listRight);
 		}
 
 		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -145,7 +145,7 @@ namespace TotalCommander
 				if (selectedItem.IsFolder())
 					itemType = "folder";
 
-				FileUtils.Clone(activeItemPath, inactiveViewPath + @"\" + selectedItem.GetName(), itemType, true);
+				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, true);
 
 				BuildListView(inactiveWiew, inactiveViewPath);
 			}
@@ -164,7 +164,7 @@ namespace TotalCommander
 				if (selectedItem.IsFolder())
 					itemType = "folder";
 
-				FileUtils.Clone(activeItemPath, inactiveViewPath + @"\" + selectedItem.GetName(), itemType, false);
+				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, false);
 
 				BuildListView(activeWiew, activeViewPath);
 				BuildListView(inactiveWiew, inactiveViewPath);

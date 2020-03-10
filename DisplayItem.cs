@@ -11,7 +11,7 @@ namespace TotalCommander
         public string Name { get; set; }
         public string Extension { get; set; }
         public DateTime LastChangedDate { get; }
-        public string IconURL { get; }
+        public string IconURL { get; set; }
 
         public DisplayItem(string path)
         {
@@ -19,7 +19,7 @@ namespace TotalCommander
             this.Name = GetName();
             this.Extension = GetExtension();
             this.LastChangedDate = GetLastChangedDate();
-            this.IconURL = SetImage();
+            this.IconURL = GetImage();
         }
 
         public string GetName()
@@ -53,15 +53,26 @@ namespace TotalCommander
             return Directory.GetLastWriteTime(Path);
         }
 
-        private string SetImage()
+        private string GetImage()
         {
 
-            if (this.IsFile())
-                return "resources/icon.png";
+            if (this.Name == "Up one level")
+                return "resources/up.png";
             else if (this.IsFolder())
                 return "resources/folder.png";
-            else 
-                return "";
+            else
+                return "resources/icon.png";
+        }
+
+        private void SetImage()
+        {
+
+            if (this.Name == "Up one level")
+                this.IconURL = "resources/up.png";
+            else if (this.IsFolder())
+                this.IconURL = "resources/folder.png";
+            else
+                this.IconURL = "resources/icon.png";
         }
 
         public DisplayItem GetParent()
@@ -79,6 +90,8 @@ namespace TotalCommander
 
             parent.SetName("Up one level");
             parent.SetExtension("");
+            parent.SetImage();
+            
             return parent;
         }
 
