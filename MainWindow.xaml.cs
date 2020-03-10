@@ -105,69 +105,48 @@ namespace TotalCommander
 
 		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
 		{
-			NewFolder nf = new NewFolder(activeWiew, activeViewPath);
-			nf.Show();
+			NewFolder();
 		}
 
 		private void btnDelete_Click(object sender, RoutedEventArgs e)
 		{
-			if (activeWiew.SelectedItems.Count >= 1)
-			{
-				string itemType = "";
-				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
-
-				if (selectedItem.IsFile())
-					itemType = "file";
-
-				if (selectedItem.IsFolder())
-					itemType = "folder";
-
-				MessageBoxResult confirmDelete = MessageBox.Show("Are you sure to delete this item?", "Confrm delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-				if (confirmDelete == MessageBoxResult.Yes)
-				{
-					FileUtils.Delete(activeItemPath, itemType);
-					BuildListView(activeWiew, activeViewPath);
-				}
-			}
+			DeleteItem();
 		}
 
 		private void btnCopy_Click(object sender, RoutedEventArgs e)
 		{
-			if (activeWiew.SelectedItems.Count >= 1)
-			{
-				string itemType = "";
-				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
-
-				if (selectedItem.IsFile())
-					itemType = "file";
-
-				if (selectedItem.IsFolder())
-					itemType = "folder";
-
-				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, true);
-
-				BuildListView(inactiveWiew, inactiveViewPath);
-			}
+			CloneItem(true);
 		}
 
 		private void btnMove_Click(object sender, RoutedEventArgs e)
 		{
-			if (activeWiew.SelectedItems.Count >= 1)
-			{
-				string itemType = "";
-				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+			CloneItem(false);
+		}
 
-				if (selectedItem.IsFile())
-					itemType = "file";
+//KeyPress Actions
 
-				if (selectedItem.IsFolder())
-					itemType = "folder";
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.Key) {
+				case Key.Delete:
+					DeleteItem();
+					e.Handled = true;
+					break;
 
-				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, false);
+				case Key.F5:
+					CloneItem(true);
+					e.Handled = true;
+					break;
 
-				BuildListView(activeWiew, activeViewPath);
-				BuildListView(inactiveWiew, inactiveViewPath);
+				case Key.F6:
+					CloneItem(false);
+					e.Handled = true;
+					break;
+
+				case Key.F7:
+					NewFolder();
+					e.Handled = true;
+					break;
 			}
 		}
 
@@ -253,5 +232,56 @@ namespace TotalCommander
 			if (lv.SelectedItems.Count >= 1)
 				activeItemPath = ((DisplayItem)lv.SelectedItem).Path;
 		}
+
+//File Operations Invoking
+
+		private void NewFolder()
+		{
+			NewFolder nf = new NewFolder(activeWiew, activeViewPath);
+			nf.Show();
+		}
+
+		private void DeleteItem()
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				string itemType = "";
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile())
+					itemType = "file";
+
+				if (selectedItem.IsFolder())
+					itemType = "folder";
+
+				MessageBoxResult confirmDelete = MessageBox.Show("Are you sure to delete this item?", "Confrm delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+				if (confirmDelete == MessageBoxResult.Yes)
+				{
+					FileUtils.Delete(activeItemPath, itemType);
+					BuildListView(activeWiew, activeViewPath);
+				}
+			}
+		}
+
+		private void CloneItem(bool keepSource)
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				string itemType = "";
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile())
+					itemType = "file";
+
+				if (selectedItem.IsFolder())
+					itemType = "folder";
+
+				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, keepSource);
+
+				BuildListView(inactiveWiew, inactiveViewPath);
+			}
+		}
+
 	}
 }
