@@ -27,6 +27,7 @@ namespace TotalCommander
 		public string activeViewPath, inactiveViewPath, activeItemPath;
 		//private bool AnItemIsSelected;
 		private static ListView activeWiew = new ListView();
+		private static ListView inactiveWiew = new ListView();
 
 		public MainWindow()
 		{
@@ -72,26 +73,22 @@ namespace TotalCommander
 
 		private void listLeft_Loaded(object sender, RoutedEventArgs e)
 		{
-			activeWiew = listLeft;
-			SetActiveViewPath(activeWiew);
+			SetActivePaths(activeWiew);
 		}
 
 		private void listRight_Loaded(object sender, RoutedEventArgs e)
 		{
-			activeWiew = listRight;
-			SetActiveViewPath(activeWiew);
+			SetActivePaths(activeWiew);
 		}
 
 		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
 		{
-			activeWiew = listLeft;
-			SetActiveViewPath(activeWiew);
+			SetActivePaths(activeWiew);
 		}
 
 		private void listRight_GotFocus(object sender, RoutedEventArgs e)
 		{
-			activeWiew = listRight;
-			SetActiveViewPath(activeWiew);
+			SetActivePaths(activeWiew);
 		}
 
 		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -148,7 +145,9 @@ namespace TotalCommander
 				if (selectedItem.IsFolder())
 					itemType = "folder";
 
-				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, true);
+				FileUtils.Clone(activeItemPath, inactiveViewPath + @"\" + selectedItem.GetName(), itemType, true);
+
+				BuildListView(inactiveWiew, inactiveViewPath);
 			}
 		}
 
@@ -165,7 +164,10 @@ namespace TotalCommander
 				if (selectedItem.IsFolder())
 					itemType = "folder";
 
-				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, false);
+				FileUtils.Clone(activeItemPath, inactiveViewPath + @"\" + selectedItem.GetName(), itemType, false);
+
+				BuildListView(activeWiew, activeViewPath);
+				BuildListView(inactiveWiew, inactiveViewPath);
 			}
 		}
 
@@ -200,7 +202,7 @@ namespace TotalCommander
 				if (selectedItem.IsFolder())
 					BuildListView(lv, selectedItem.Path);
 
-				SetActiveViewPath(lv);
+				SetActivePaths(lv);
 			}
 		}
 
@@ -224,16 +226,25 @@ namespace TotalCommander
 				rightViewPath = path;
 		}
 
-		//sets Active / last active View paths for copy / move / new file
-		private void SetActiveViewPath(ListView lv)
+		//sets Active / Inactive View paths for copy / move / new file
+		private void SetActivePaths(ListView lv)
 		{
-			inactiveViewPath = activeViewPath;
-
 			if (lv.Name.ToLower().Contains("left"))
+			{
 				activeViewPath = leftViewPath;
+				inactiveViewPath = rightViewPath;
 
+				activeWiew = listLeft;
+				inactiveWiew = listRight;
+			}
 			if (lv.Name.ToLower().Contains("right"))
+			{
 				activeViewPath = rightViewPath;
+				inactiveViewPath = leftViewPath;
+
+				activeWiew = listRight;
+				inactiveWiew = listLeft;
+			}
 		}
 
 		//sets last selected item path for copy / delete / move

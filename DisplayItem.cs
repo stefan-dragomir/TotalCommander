@@ -19,12 +19,7 @@ namespace TotalCommander
             this.Name = GetName();
             this.Extension = GetExtension();
             this.LastChangedDate = GetLastChangedDate();
-
-            if (this.IsFile())
-                this.IconURL = "resources/icon.png";
-
-            if (this.IsFolder())
-                this.IconURL = "resources/folder.png";
+            this.IconURL = SetImage();
         }
 
         public string GetName()
@@ -56,6 +51,17 @@ namespace TotalCommander
         public DateTime GetLastChangedDate()
         {
             return Directory.GetLastWriteTime(Path);
+        }
+
+        private string SetImage()
+        {
+
+            if (this.IsFile())
+                return "resources/icon.png";
+            else if (this.IsFolder())
+                return "resources/folder.png";
+            else 
+                return "";
         }
 
         public DisplayItem GetParent()

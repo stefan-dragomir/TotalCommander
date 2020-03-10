@@ -28,7 +28,7 @@ namespace TotalCommander
 			if (d.Parent == null)
 				Directory.CreateDirectory(path + folderName);
 			else
-				Directory.CreateDirectory(path + "\\" + folderName);
+				Directory.CreateDirectory(path + @"\" + folderName);
 		}
 
 		public static void Delete(string path, string type)
@@ -68,9 +68,11 @@ namespace TotalCommander
 					else
 					{
 						if (keepOriginal == false)
+							//will not work across volumes
 							Directory.Move(sourcePath, destinationPath);
-						else
-							Directory.Move(sourcePath, destinationPath);
+						//else
+							//Figure Out Copying
+							//Directory.Move(sourcePath, destinationPath);
 					}
 
 					break;
