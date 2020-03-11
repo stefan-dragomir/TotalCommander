@@ -95,5 +95,9 @@ namespace TotalCommander
 			foreach (DirectoryInfo di in innerFolders)
 				CopyFolderRecursive(di.FullName, destPath);
 		}
+
+		public static void Compress()
+		{
+		}
 	}
 }

@@ -48,3 +48,5 @@ D:\School\GIT\TotalCommander\obj\Debug\NewFolder.g.cs
 D:\School\GIT\TotalCommander\obj\Debug\NewFolder.baml
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\NewFolder.g.cs
 C:\Users\Stefan\Desktop\New folder\TotalCommander\obj\Debug\NewFolder.baml
+D:\School\GIT\TotalCommander\obj\Debug\TextCompare.g.cs
+D:\School\GIT\TotalCommander\obj\Debug\TextCompare.baml

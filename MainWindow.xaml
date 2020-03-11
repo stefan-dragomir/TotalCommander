@@ -6,16 +6,21 @@
         xmlns:local="clr-namespace:TotalCommander"
         xmlns:Properties="clr-namespace:TotalCommander.Properties" x:Class="TotalCommander.MainWindow"
         mc:Ignorable="d"
-        Title="TotalCommander" Height="500" Width="1000" KeyDown="Window_KeyDown">
-	<StackPanel x:Name="pnlContainer" ClipToBounds="True" Margin="0,0,0,0">
+        Title="TotalCommander" Height="700" Width="1000" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
+	<Grid x:Name="gridContainer" Margin="0,0,0,0">
 		<Menu x:Name="menuTop" Height="25" VerticalAlignment="Top" ClipToBounds="True" Margin="0,0,0,0">
-			<MenuItem Header="MenuItem" Height="25" />
-			<MenuItem Header="MenuItem2" Height="25" />
+			<MenuItem x:Name="miFile" Header="File" Height="25" >
+				<MenuItem x:Name="miPack" Header="Pack" Height="25" Margin="0,0,-24,0" />
+				<MenuItem x:Name="miUnpack" Header="Unpack" Height="25" Margin="0,0,-24,0" />
+				<MenuItem x:Name="miCompareContent" Header="Compare by content" Height="25" Margin="0,0,-24,0"  Click="miCompareContent_Click"/>
+				<MenuItem x:Name="miExit" Header="Exit" Height="25" Margin="0,0,-24,0" />
+			</MenuItem>
+			<MenuItem x:Name="miShow" Header="Show" Height="25" />
 			<MenuItem Header="Help" Height="25">
 				<MenuItem x:Name="miAbout" Header="About" Height="25" Margin="0,0,-24,0" Click="miAbout_Click"/>
 			</MenuItem>
 		</Menu>
-		<Grid x:Name="gridFileOp" Height="412" ClipToBounds="True" Margin="0,0,0,0">
+		<Grid x:Name="gridFileOp" ClipToBounds="True" Margin="0,26,0,31">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="30px"/>
 				<RowDefinition Height="*"/>
@@ -26,12 +31,12 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid x:Name="gridLeftPath" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
-				<ComboBox x:Name="cbDrivesLeft" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" SelectionChanged="cbDrivesLeft_SelectionChanged"/>
-				<TextBox x:Name="txtPathLeft" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+				<ComboBox x:Name="cbDrivesLeft" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrivesLeft_SelectionChanged"/>
+				<TextBox x:Name="txtPathLeft" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
 			</Grid>
 			<Grid x:Name="gridRightPath" Grid.Row="0" Grid.Column="2" Margin="0,0,0,0">
-				<ComboBox x:Name="cbDrivesRight" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" SelectionChanged="cbDrivesRight_SelectionChanged"/>
-				<TextBox x:Name="txtPathRight" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+				<ComboBox x:Name="cbDrivesRight" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrivesRight_SelectionChanged"/>
+				<TextBox x:Name="txtPathRight" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
 			</Grid>
 			
 			<ListView x:Name="listLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MouseDoubleClick="listLeft_MouseDoubleClick" GotFocus="listLeft_GotFocus" Loaded="listLeft_Loaded" SelectionChanged="listLeft_SelectionChanged">
@@ -55,7 +60,8 @@
 				<Button x:Name="btnNewFolder" Content="New Folder (F7)" Margin="0,0,0,10" Height="30" Click="btnNewFolder_Click"/>
 				<Button x:Name="btnDelete" Content="Delete (Del)" Margin="0,10,0,10" Height="30" Click="btnDelete_Click"/>
 				<Button x:Name="btnCopy" Content="Copy (F5)" Margin="0,10,0,10" Height="30" Click="btnCopy_Click"/>
-				<Button x:Name="btnMove" Content="Move (F6)" Margin="0,10,0,0" Height="30" Click="btnMove_Click"/>
+				<Button x:Name="btnMove" Content="Move (F6)" Margin="0,10,0,10" Height="30" Click="btnMove_Click"/>
+				<Button x:Name="btnZip" Content="Compress" Margin="0,10,0,10" Height="30" />
 			</StackPanel>
 			<ListView x:Name="listRight" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" MouseDoubleClick="listRight_MouseDoubleClick" Loaded="listRight_Loaded" GotFocus="listRight_GotFocus" SelectionChanged="listRight_SelectionChanged">
 				<ListView.View>
@@ -75,5 +81,5 @@
 			</ListView>
 		</Grid>
 		<Menu x:Name="menuBottom" Height="30" ClipToBounds="True" Margin="0,0,0,0" VerticalAlignment="Bottom"/>
-	</StackPanel>
+	</Grid>
 </Window>

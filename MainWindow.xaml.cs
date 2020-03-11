@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO;
+using System.Windows.Controls;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace TotalCommander
 {
@@ -32,12 +21,40 @@ namespace TotalCommander
 		public MainWindow()
 		{
 			InitializeComponent();
-			//to implement FOR
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
 			PopulateComboBox(cbDrivesLeft);
 			PopulateComboBox(cbDrivesRight);
 		}
 
+
 //Menu Actions
+
+
+		private void miCompareContent_Click(object sender, RoutedEventArgs e)
+		{
+			TextCompare tc;
+
+			if (activeItemPath != null)
+			{
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile() && selectedItem.GetExtension().ToLower() == "txt")
+					tc = new TextCompare(activeItemPath);
+				else if (activeViewPath.Length >= 1)
+					tc = new TextCompare(activeViewPath);
+				else
+					tc = new TextCompare();
+			}
+			else if (activeItemPath != null)
+				tc = new TextCompare(activeViewPath);
+			else
+				tc = new TextCompare();
+
+			tc.Show();
+		}
 
 		private void miAbout_Click(object sender, RoutedEventArgs e)
 		{
@@ -64,11 +81,13 @@ namespace TotalCommander
 		private void listLeft_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			OpenDisplayItem(listLeft);
+			//activeItemPath = "";
 		}
 
 		private void listRight_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
 			OpenDisplayItem(listRight);
+			//activeItemPath = "";
 		}
 
 		private void listLeft_Loaded(object sender, RoutedEventArgs e)
@@ -203,6 +222,8 @@ namespace TotalCommander
 
 			if (lv.Name.ToLower().Contains("right"))
 				rightViewPath = path;
+
+			SetActivePaths(lv);
 		}
 
 		//sets Active / Inactive View paths for copy / move / new file
