@@ -31,15 +31,15 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<Grid x:Name="gridLeftPath" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
-				<ComboBox x:Name="cbDrivesLeft" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrivesLeft_SelectionChanged"/>
+				<ComboBox x:Name="cbDrivesLeft" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrives_SelectionChanged"/>
 				<TextBox x:Name="txtPathLeft" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
 			</Grid>
 			<Grid x:Name="gridRightPath" Grid.Row="0" Grid.Column="2" Margin="0,0,0,0">
-				<ComboBox x:Name="cbDrivesRight" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrivesRight_SelectionChanged"/>
+				<ComboBox x:Name="cbDrivesRight" Width="60" HorizontalAlignment="Left" VerticalAlignment="Stretch" VerticalContentAlignment="Center" SelectionChanged="cbDrives_SelectionChanged"/>
 				<TextBox x:Name="txtPathRight" Margin="65,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
 			</Grid>
-			
-			<ListView x:Name="listLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" MouseDoubleClick="listLeft_MouseDoubleClick" GotFocus="listLeft_GotFocus" Loaded="listLeft_Loaded" SelectionChanged="listLeft_SelectionChanged">
+
+			<ListView x:Name="listLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="list_MouseDoubleClick" GotFocus="list_GotFocus" Loaded="list_Loaded" SelectionChanged="list_SelectionChanged">
 				<ListView.View>
 					<GridView x:Name="gridInnerLeft">
 						<GridViewColumn Width="30">
@@ -63,7 +63,7 @@
 				<Button x:Name="btnMove" Content="Move (F6)" Margin="0,10,0,10" Height="30" Click="btnMove_Click"/>
 				<Button x:Name="btnZip" Content="Compress" Margin="0,10,0,10" Height="30" />
 			</StackPanel>
-			<ListView x:Name="listRight" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" MouseDoubleClick="listRight_MouseDoubleClick" Loaded="listRight_Loaded" GotFocus="listRight_GotFocus" SelectionChanged="listRight_SelectionChanged">
+			<ListView x:Name="listRight" Grid.Row="1" Grid.Column="2" Margin="0,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="list_MouseDoubleClick" GotFocus="list_GotFocus" Loaded="list_Loaded" SelectionChanged="list_SelectionChanged">
 				<ListView.View>
 					<GridView x:Name="gridInnerRight">
 						<GridViewColumn Width="30">

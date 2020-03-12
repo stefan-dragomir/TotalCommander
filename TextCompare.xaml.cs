@@ -49,20 +49,19 @@ namespace TotalCommander
 					System.Windows.MessageBox.Show("Please select two valid text files.", "", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
 				else
 				{
-					//DoTheMagicHere
+					//Do the magic
 					Compare(txtCompareLeft, txtCompareRight, txtPathLeft.Text, txtPathRight.Text);
 				}
 			}
 		}
 
-		private void txtCompareRight_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		//So I found this idea on the internet...
+		private void txtCompare_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
 		{
-			txtCompareLeft.ScrollToVerticalOffset(txtCompareRight.VerticalOffset);
-		}
-
-		private void txtCompareLeft_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-		{
-			txtCompareRight.ScrollToVerticalOffset(txtCompareLeft.VerticalOffset);
+			if (sender == txtCompareLeft)
+				txtCompareRight.ScrollToVerticalOffset(txtCompareLeft.VerticalOffset);
+			else
+				txtCompareLeft.ScrollToVerticalOffset(txtCompareRight.VerticalOffset);
 		}
 
 //Generic Functions
@@ -84,7 +83,7 @@ namespace TotalCommander
 		}
 
 
-//maybe prettify the below code
+//maybe i'll prettify the below code
 //if i still have time
 
 
@@ -92,7 +91,7 @@ namespace TotalCommander
 		{
 
 			//All the below code was adapted from the official Microsoft c# docs.
-			//Apparently one does not simply add some line of text in a TextBox, select it, and color it.
+			//Apparently one does not simply add some line of text in a TextBox and expect to select it and color it.
 			//Nooo, too simple...
 
 			string[] leftCache = File.ReadAllLines(leftFilePath);
@@ -161,7 +160,7 @@ namespace TotalCommander
 				pgRight.Inlines.Add(textRunRight);
 			}
 
-			//Finally populate the RichTextBox with some text
+			//Finally populate the RichTextBox with the paragraph
 			leftBox.Document.Blocks.Add(pgLeft);
 			rightBox.Document.Blocks.Add(pgRight);
 

@@ -67,65 +67,47 @@ namespace TotalCommander
 			abtWindow.Show();
 		}
 
+
 //ComboBoxes Actions
 
-		private void cbDrivesLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+		private void cbDrives_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			string[] Drives = FileUtils.GetDrives().Split('|');
-			BuildListView(listLeft, Drives[cbDrivesLeft.SelectedIndex]);
+
+			if (sender == cbDrivesLeft)
+				BuildListView(listLeft, Drives[cbDrivesLeft.SelectedIndex]);
+			else
+				BuildListView(listRight, Drives[cbDrivesRight.SelectedIndex]);
 		}
 
-		private void cbDrivesRight_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			string[] Drives = FileUtils.GetDrives().Split('|');
-			BuildListView(listRight, Drives[cbDrivesRight.SelectedIndex]);
-		}
 
 //Views Actions
 
-		private void listLeft_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+		private void list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			OpenDisplayItem(listLeft);
-			//activeItemPath = "";
+			OpenDisplayItem((ListView)sender);
 		}
 
-		private void listRight_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private void list_Loaded(object sender, RoutedEventArgs e)
 		{
-			OpenDisplayItem(listRight);
-			//activeItemPath = "";
+			SetActivePaths((ListView)sender);
 		}
 
-		private void listLeft_Loaded(object sender, RoutedEventArgs e)
+		private void list_GotFocus(object sender, RoutedEventArgs e)
 		{
-			SetActivePaths(listLeft);
+			SetActivePaths((ListView)sender);
 		}
 
-		private void listRight_Loaded(object sender, RoutedEventArgs e)
+		private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			SetActivePaths(listRight);
+			SetActiveSelectionPath((ListView)sender);
 		}
 
-		private void listLeft_GotFocus(object sender, RoutedEventArgs e)
-		{
-			SetActivePaths(listLeft);
-		}
-
-		private void listRight_GotFocus(object sender, RoutedEventArgs e)
-		{
-			SetActivePaths(listRight);
-		}
-
-		private void listLeft_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SetActiveSelectionPath(listLeft);
-		}
-
-		private void listRight_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			SetActiveSelectionPath(listRight);
-		}
 
 //Buttons Actions
+
 
 		private void btnNewFolder_Click(object sender, RoutedEventArgs e)
 		{

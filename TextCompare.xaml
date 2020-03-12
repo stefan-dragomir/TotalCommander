@@ -26,8 +26,8 @@
 			<TextBox x:Name="txtPathRight" Margin="25,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
 		</Grid>
 		<GridSplitter x:Name="gridSplitter" Grid.Row="1" Grid.Column="1" Margin="2,0,2,0" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-		<RichTextBox x:Name="txtCompareLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="txtCompareLeft_ScrollChanged"/>
-		<RichTextBox x:Name="txtCompareRight" Grid.Row="1" Grid.Column="2" Margin="0,0,0,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="txtCompareRight_ScrollChanged"/>
+		<RichTextBox x:Name="txtCompareLeft" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="txtCompare_ScrollChanged"/>
+		<RichTextBox x:Name="txtCompareRight" Grid.Row="1" Grid.Column="2" Margin="0,0,0,0" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" ScrollViewer.ScrollChanged="txtCompare_ScrollChanged"/>
 		<StackPanel Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,0,0">
 			<Button x:Name="btnCompare" Content="Compare!" Margin="0,5" Width="80" Click="btnCompare_Click"/>
 		</StackPanel>
