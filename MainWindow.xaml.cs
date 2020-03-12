@@ -56,6 +56,11 @@ namespace TotalCommander
 			tc.Show();
 		}
 
+		private void miExit_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
 		private void miAbout_Click(object sender, RoutedEventArgs e)
 		{
 			About abtWindow = new About();
@@ -253,6 +258,7 @@ namespace TotalCommander
 			if (lv.SelectedItems.Count >= 1)
 				activeItemPath = ((DisplayItem)lv.SelectedItem).Path;
 		}
+
 
 //File Operations Invoking
 

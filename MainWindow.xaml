@@ -13,7 +13,7 @@
 				<MenuItem x:Name="miPack" Header="Pack" Height="25" Margin="0,0,-24,0" />
 				<MenuItem x:Name="miUnpack" Header="Unpack" Height="25" Margin="0,0,-24,0" />
 				<MenuItem x:Name="miCompareContent" Header="Compare by content" Height="25" Margin="0,0,-24,0"  Click="miCompareContent_Click"/>
-				<MenuItem x:Name="miExit" Header="Exit" Height="25" Margin="0,0,-24,0" />
+				<MenuItem x:Name="miExit" Header="Exit" Height="25" Margin="0,0,-24,0" Click="miExit_Click" />
 			</MenuItem>
 			<MenuItem x:Name="miShow" Header="Show" Height="25" />
 			<MenuItem Header="Help" Height="25">
