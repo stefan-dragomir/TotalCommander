@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using System.IO;
+using System.IO.Compression;
+using System.Diagnostics;
 
 namespace TotalCommander
 {
@@ -10,11 +12,11 @@ namespace TotalCommander
 			DriveInfo[] allDrives = DriveInfo.GetDrives();
 			StringBuilder drives = new StringBuilder();
 
-			foreach (DriveInfo d in allDrives)
+			foreach (DriveInfo di in allDrives)
 			{
-				if (d.IsReady)
+				if (di.IsReady)
 				{
-					drives.Append(d.RootDirectory + "|");
+					drives.Append(di.RootDirectory + "|");
 				}
 			}
 
@@ -23,9 +25,9 @@ namespace TotalCommander
 
 		public static void NewFolder(string path, string folderName)
 		{
-			DirectoryInfo d = new DirectoryInfo(path);
+			DirectoryInfo di = new DirectoryInfo(path);
 
-			if (d.Parent == null)
+			if (di.Parent == null)
 				Directory.CreateDirectory(path + folderName);
 			else
 				Directory.CreateDirectory(path + @"\" + folderName);
@@ -33,9 +35,9 @@ namespace TotalCommander
 
 		public static void Delete(string path, string type)
 		{
-			DirectoryInfo d = new DirectoryInfo(path);
+			DirectoryInfo di = new DirectoryInfo(path);
 
-			if (d.Parent == null)
+			if (di.Parent == null)
 				return;
 			else
 			{
@@ -55,16 +57,18 @@ namespace TotalCommander
 			switch (type.ToLower())
 			{
 				case "file":
+					FileInfo fi = new FileInfo(sourcePath);
+
+					File.Copy(fi.FullName, destinationPath + @"\" + fi.Name);
+
 					if (keepOriginal == false)
-						File.Move(sourcePath, destinationPath);
-					else
-						File.Copy(sourcePath, destinationPath);
+						Delete(sourcePath, "file");
 
 					break;
 				case "folder":
-					DirectoryInfo d = new DirectoryInfo(sourcePath);
+					DirectoryInfo di = new DirectoryInfo(sourcePath);
 
-					if (d.Parent == null)
+					if (di.Parent == null)
 						return;
 					else
 					{
@@ -78,7 +82,7 @@ namespace TotalCommander
 			}
 		}
 
-		public static void CopyFolderRecursive(string sourcePath, string destinationPath)
+		private static void CopyFolderRecursive(string sourcePath, string destinationPath)
 		{
 			DirectoryInfo currentDirectory = new DirectoryInfo(sourcePath);
 			NewFolder(destinationPath, currentDirectory.Name);
@@ -96,8 +100,32 @@ namespace TotalCommander
 				CopyFolderRecursive(di.FullName, destPath);
 		}
 
-		public static void Compress()
+		public static int Zipper(string sourcePath, string destinationPath, string type, bool unpack = false)
 		{
+			Process p = new Process();
+			string argString;
+
+			if (type.ToLower() == "file")
+			{
+				FileInfo fi = new FileInfo(sourcePath);
+
+				if (!unpack)
+					argString = "a -tzip \"" + destinationPath + "\\" + fi.Name.Replace(fi.Extension, "") + ".zip\"" + " \"" + sourcePath + "\"";
+				else
+					argString = "e "  + "\"" + sourcePath + "\" -o\"" + destinationPath + "\\" + fi.Name.Replace(fi.Extension, "") + "\" * -r";
+			}
+			else
+			{
+				DirectoryInfo di = new DirectoryInfo(sourcePath);
+				argString = "a -tzip \"" + destinationPath + "\\" + di.Name + ".zip\"" + " \"" + sourcePath + "\"";
+			}
+
+			p.StartInfo.FileName = "C:\\Program Files\\7-Zip\\7z.exe";
+			p.StartInfo.Arguments = argString;
+
+			p.Start();
+			p.WaitForExit();
+			return p.ExitCode;
 		}
 	}
 }

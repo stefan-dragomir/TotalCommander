@@ -35,25 +35,12 @@ namespace TotalCommander
 
 		private void miCompareContent_Click(object sender, RoutedEventArgs e)
 		{
-			TextCompare tc;
+			CompareContent();
+		}
 
-			if (activeItemPath != null)
-			{
-				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
-
-				if (selectedItem.IsFile() && selectedItem.GetExtension().ToLower() == "txt")
-					tc = new TextCompare(activeItemPath);
-				else if (activeViewPath.Length >= 1)
-					tc = new TextCompare(activeViewPath);
-				else
-					tc = new TextCompare();
-			}
-			else if (activeItemPath != null)
-				tc = new TextCompare(activeViewPath);
-			else
-				tc = new TextCompare();
-
-			tc.Show();
+		private void miPacker_Click(object sender, RoutedEventArgs e)
+		{
+			ZipUnzip(sender);
 		}
 
 		private void miExit_Click(object sender, RoutedEventArgs e)
@@ -232,6 +219,8 @@ namespace TotalCommander
 				activeWiew = listRight;
 				inactiveWiew = listLeft;
 			}
+			txtPathLeft.Text = leftViewPath;
+			txtPathRight.Text = rightViewPath;
 		}
 
 		//sets last selected item path for copy / delete / move
@@ -247,7 +236,12 @@ namespace TotalCommander
 		private void NewFolder()
 		{
 			NewFolder nf = new NewFolder(activeWiew, activeViewPath);
-			nf.Show();
+			nf.ShowDialog();
+
+			BuildListView(activeWiew, activeViewPath);
+
+			if (activeViewPath == inactiveViewPath)
+				BuildListView(inactiveWiew, inactiveViewPath);
 		}
 
 		private void DeleteItem()
@@ -269,8 +263,13 @@ namespace TotalCommander
 				{
 					FileUtils.Delete(activeItemPath, itemType);
 					BuildListView(activeWiew, activeViewPath);
+
+					if (activeViewPath == inactiveViewPath)
+						BuildListView(inactiveWiew, inactiveViewPath);
 				}
 			}
+			else
+				MessageBox.Show("Please select an item first.");
 		}
 
 		private void CloneItem(bool keepSource)
@@ -288,9 +287,80 @@ namespace TotalCommander
 
 				FileUtils.Clone(activeItemPath, inactiveViewPath, itemType, keepSource);
 
+				BuildListView(activeWiew, activeViewPath);
 				BuildListView(inactiveWiew, inactiveViewPath);
+				
 			}
+			else
+				MessageBox.Show("Please select an item first.");
 		}
 
-	}
+		private void CompareContent()
+		{
+			TextCompare tc;
+
+			if (activeItemPath != null)
+			{
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				if (selectedItem.IsFile() && selectedItem.GetExtension().ToLower() == "txt")
+					tc = new TextCompare(activeItemPath);
+				else if (activeViewPath.Length >= 1)
+					tc = new TextCompare(activeViewPath);
+				else
+					tc = new TextCompare();
+			}
+			else if (activeItemPath != null)
+				tc = new TextCompare(activeViewPath);
+			else
+				tc = new TextCompare();
+
+			tc.Show();
+		}
+
+		private void ZipUnzip(object sender)
+		{
+			if (activeWiew.SelectedItems.Count >= 1)
+			{
+				DisplayItem selectedItem = ((DisplayItem)activeWiew.SelectedItem);
+
+				string type;
+
+				if (selectedItem.IsFile())
+					type = "file";
+				else
+					type = "folder";
+
+				if (sender == miPack)
+					ZipItem(type);
+				else
+					ZipItem(type, true);
+			}
+			else
+				MessageBox.Show("Please select an item first.");
+		}
+
+		private void ZipItem(string type, bool unpack = false)
+		{
+			int success;
+
+			if (!unpack)
+				success = FileUtils.Zipper(activeItemPath, inactiveViewPath, type);
+			else
+			{
+				if (type.ToLower() == "file")
+					success = FileUtils.Zipper(activeItemPath, inactiveViewPath, type, true);
+				else
+					success = -1;
+			}
+
+			if (success == 0)
+			{
+				BuildListView(activeWiew, activeViewPath);
+				BuildListView(inactiveWiew, inactiveViewPath);
+			}
+			else
+				MessageBox.Show("Please select a valid archive type.");
+		}
+ 	}
 }
